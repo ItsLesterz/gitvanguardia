@@ -1,6 +1,5 @@
-routes/estudiantes
 var router = require('express').Router();
-const estudiantesController = require('../controllers/estudiantesController');
-router.get('/', estudiantesController.getAllEstudiantes);
+const estudiantesCtrl = require('../controllers/estudiantes');
+router.get('/', estudiantesCtrl.getAllEstudiantes);
 
-module.exports = routes;
+module.exports = router;    

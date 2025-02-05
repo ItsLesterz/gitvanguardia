@@ -1,5 +1,3 @@
-controllers/estudiantes
-
 const getAllEstudiantes = async(req, res) => {
  res.status(200).json({
     status: 200,

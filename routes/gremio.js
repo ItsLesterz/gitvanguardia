@@ -1,12 +1,11 @@
-const express = require('express');
+var express = require('express');
 var router = express.Router();
-const gremioController = require('../controllers/gremio');
-router.get('/', gremioController.getAll);
-router.get('/:id', gremioController.getById);
-router.post('/', gremioController.create);
-router.put('/:id', gremioController.update);
-router.delete('/:id', gremioController.delete);
-const router = express.Router();
 
+const gremioCtrl = require("../controllers/gremio") ;
+
+router.post('/add',gremioCtrl.AddGremio);
+router.get('/get',gremioCtrl.getGremio);
+router.put('/update',gremioCtrl.updateName);
+router.put('/delete',gremioCtrl.deleteGremio);
 
 module.exports = router;

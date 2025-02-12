@@ -1,118 +1,118 @@
+//aqui se hacen las funciones
 
-const express = require('express');
+const ide =1;
+const names= "Arkus";
+const houses = "Lupus";
+const cantidades = 60;
+const statuses = 1;
 
-const gremios = [
-    {
-        id: 1,
-        nombre: 'Gremio de Magos',
-        casas: ['Casa de Fuego', 'Casa de Agua'],
-        cantidad: 50,
-        status: 'activo',
-        miembros: ['Merlin', 'Gandalf']
-    },
-    {
-        id: 2,
-        nombre: 'Gremio de Guerreros',
-        casas: ['Casa de Espadas', 'Casa de Escudos'],
-        cantidad: 75,
-        status: 'activo',
-        miembros: ['Conan', 'Xena']
+const errorMessages = [];
+
+const { request, response } = require('../app');
+
+
+ async function AddGremio (request,response){
+    
+    const{Id,name,house,cantidad,status} = request.body;
+
+    if(Id==ide){
+        errorMessages.push("La id ya existe!");
     }
-];
-
-const getGremios = (req, res) => {
-    try {
-        res.json(gremios);
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
+    if(name==names){
+        errorMessages.push("El nombre ya existe!");
+    }if(house==houses){
+        errorMessages.push("La casa ya existe!");
+    }if(cantidad==cantidades){
+        errorMessages.push("Cantidad ya existe, por probarlo!");
+    }if(status==statuses){
+        errorMessages.push(" ya esta encendido!");
     }
-};
+    if (errorMessages.length) {
+        res.status(400).send({
+          message: "Bad request",
+          details: errorMessages,
+        });
+      } else {
+        response.status(201).send({
 
-const getGremioById = (req, res) => {
-    try {
-        const gremio = gremios.find(g => g.id === parseInt(req.params.id));
-        if (gremio) {
-            res.json(gremio);
-        } else {
-            res.status(404).send('Gremio not found');
+            message: "agregado con exito", Id   
+         });
         }
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
-    }
-};
+}
 
-const createGremio = (req, res) => {
-    try {
-        const { id, nombre, casas, cantidad, status } = req.body;
-        if (!id || !nombre || !casas || !cantidad || !status) {
-            return res.status(400).send('Bad Request: Missing required fields');
-        }
-        const newGremio = { id, nombre, casas, cantidad, status, miembros: [] };
-        gremios.push(newGremio);
-        res.status(201).json(newGremio);
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
-    }
-};
+async function updateName (request,response){
+    
+    const{name} = request.body;
 
-const updateGremioById = (req, res) => {
-    try {
-        const gremio = gremios.find(g => g.id === parseInt(req.params.id));
-        if (gremio) {
-            Object.assign(gremio, req.body);
-            res.json(gremio);
-        } else {
-            res.status(404).send('Gremio not found');
-        }
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
+    if(name==names){
+        errorMessages.push("El nombre ya existe!");
     }
-};
+    if (errorMessages.length) {
+        res.status(400).send({
+          message: "Bad request",
+          details: errorMessages,
+        });
+      } else {
+        response.status(201).send({
 
-const deleteGremioById = (req, res) => {
-    try {
-        const index = gremios.findIndex(g => g.id === parseInt(req.params.id));
-        if (index !== -1) {
-            const deletedGremio = gremios.splice(index, 1);
-            res.json(deletedGremio);
-        } else {
-            res.status(404).send('Gremio not found');
+            message: "Nombre Actualizado con exito", Id   
+         });
         }
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
-const addGremioMember = (req, res) => {
-    try {
-        const gremio = gremios.find(g => g.id === parseInt(req.params.id));
-        if (gremio) {
-            if (!req.body.miembro) {
-                return res.status(400).send('Bad Request: Missing miembro field');
+}
+
+
+async function deleteGremio (request,response){
+    
+    const{Id,status} = request.body;
+
+    if(Id==ide){
+      
+            if(status==statuses){
+                status=0;
+            }else{
+
+                errorMessages.push("Ya se encuentra apagado")
             }
-            gremio.miembros.push(req.body.miembro);
-            res.json(gremio);
-        } else {
-            res.status(404).send('Gremio not found');
+    }else{
+
+        errorMessages.push("Seleccione una Id existente")
+    }
+    if (errorMessages.length) {
+        res.status(400).send({
+          message: "Bad request",
+          details: errorMessages,
+        });
+      } else {
+        response.status(201).send({
+
+            message: "Eliminado con exito", Id   
+         });
         }
-    } catch (error) {
-        res.status(500).send('Internal Server Error');
+}
+
+async function getGremio(request, response) {
+    
+    const{Id} = request.body;
+
+    if(Id==ide){
+
+
+    }else{
+        errorMessages.push("Seleccione una Id existente")
+
     }
-};
-        res.status(500).send('Internal Server Error');
-    }
-};
+    if (errorMessages.length) {
+        res.status(400).send({
+          message: "Bad request",
+          details: errorMessages,
+        });
+      } else {
+        response.status(201).send({
+            message: "Mostrando datos", Ide,names,casas,cantidades,statuses  
+         });
+        }
 
-const app = express();
-app.use(express.json());
+}
 
-app.get('/gremios', getGremios);
-app.get('/gremios/:id', getGremioById);
-app.post('/gremios', createGremio);
-app.put('/gremios/:id', updateGremioById);
-app.delete('/gremios/:id', deleteGremioById);
-app.post('/gremios/:id/miembros', addGremioMember);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
-module.exports = app;
+module.exports={AddGremio,updateName,deleteGremio,getGremio}

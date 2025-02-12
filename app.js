@@ -12,6 +12,11 @@ var hechicerosRouter = require('./routes/hechiceros');
 
 var app = express();
 
+// Using Node.js `require()`
+const mongoose = require('mongoose');
+mongoose.connect( "mongodb+srv://testserver.zyj5w.mongodb.net/")
+.then(() => console.log('Connected to MongoDB...'))
+
 // Configuración del motor de vistas
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

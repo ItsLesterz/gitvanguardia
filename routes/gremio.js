@@ -8,4 +8,4 @@ router.get('/get',gremioCtrl.getGremio);
 router.put('/update',gremioCtrl.updateName);
 router.put('/delete',gremioCtrl.deleteGremio);
 
-module.exports = router;
+module.exports = router;        
